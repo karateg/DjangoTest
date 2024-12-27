@@ -1,0 +1,17 @@
+{% extends "shopapp/base.html"%}
+{% block title %}
+Заказы:
+{% endblock title %}
+
+{% block body %}
+<h1> Заказы:</h1>
+{% for order in orders %}
+    <p>Адрес:  {{order.adress}}</p>
+    <p>Промокод:  {{order.promo}}</p>
+    <p>user:  {{order.user}}</p>
+    Продукты:
+    {% for product in order.products.all %}
+        <ul> {{product.name}}</ul>
+    {% endfor %}
+{% endfor %}
+{% endblock body %}
