@@ -5,14 +5,19 @@
 
 {% block body %}
 <h1> Товары:</h1>
-    <ul>
-        {% for product in products %}
-            <li>
-                <p>Название: {{product.name}}</p>
-                <p>Цена: {{product.price}}</p>
-                <p>Скидка: {{product.discount}}</p>      
-            </li>
-        {% endfor %}
-    </ul>
+    <div>
+        <ul>
+            {% for product in products %}
+                <li>
+                    <p>Название: {{product.name}}</p>
+                    <p>Цена: {{product.price}}</p>
+                    <p>Скидка: {{product.discount}}</p>      
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+    <div>
+        <a href="{% url "shopapp:products_create" %}"> Создать товар</a>
+    </div>
 {% endblock body %}
 

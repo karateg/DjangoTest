@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpRequest
 from django.core.files.storage import FileSystemStorage
+
+from request_app.forms import UserForm
 # Create your views here.
 
 def porcess_get(requst: HttpRequest) -> HttpResponse:
@@ -16,7 +18,10 @@ def porcess_get(requst: HttpRequest) -> HttpResponse:
 
 
 def user_form(requst: HttpRequest) -> HttpResponse:
-    return render(requst, 'request_app/user-form.html')
+    context = {
+        'form': UserForm(),
+    }
+    return render(requst, 'request_app/user-form.html', context= context)
 
 
 def upload_file(requst: HttpRequest) -> HttpResponse:

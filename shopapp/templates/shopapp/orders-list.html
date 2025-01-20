@@ -14,4 +14,7 @@
         <ul> {{product.name}}</ul>
     {% endfor %}
 {% endfor %}
+<div>
+    <a href="{% url "shopapp:orders_create" %}"> Ссылка на создание заказов</a>
+</div>
 {% endblock body %}

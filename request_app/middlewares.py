@@ -25,17 +25,17 @@ class CountRequestsMiddleware:
         self.exception_count = 0
         
         self.last_request = {}
-        self.time_limit = 2
+        self.time_limit = 1
 
 
     def __call__(self, requst: HttpRequest):
-        user_ip = requst.META['REMOTE_ADDR']
-        time_request = time.time()
-        if user_ip in self.last_request:
-            time_between_requests = time_request - self.last_request[user_ip]
-            if time_between_requests < self.time_limit:
-                return render(requst, 'request_app/Error_429.html')
-        self.last_request[user_ip] = time_request
+        # user_ip = requst.META['REMOTE_ADDR']
+        # time_request = time.time()
+        # if user_ip in self.last_request:
+        #     time_between_requests = time_request - self.last_request[user_ip]
+        #     if time_between_requests < self.time_limit:
+        #         return render(requst, 'request_app/Error_429.html')
+        # self.last_request[user_ip] = time_request
     
         self.requst_count += 1
         print('Количество запрсов = ', self.requst_count)
