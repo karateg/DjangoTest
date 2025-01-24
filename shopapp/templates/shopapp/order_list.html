@@ -5,7 +5,8 @@
 
 {% block body %}
 <h1> Заказы:</h1>
-{% for order in orders %}
+{% for order in object_list %}
+    <p> <a href="{% url "shopapp:orders_ditails" pk=order.pk %}"> Заказ: {{order.id}} </a></p>
     <p>Адрес:  {{order.adress}}</p>
     <p>Промокод:  {{order.promo}}</p>
     <p>user:  {{order.user}}</p>

@@ -5,7 +5,13 @@
 {% block body%}
 
     <h1> Группы: </h1>
-
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type="submit"> Создать </button>
+        </form>
+    </div>
     <div>
         {% if not groups %}
         <h3> Групп нет </h3>

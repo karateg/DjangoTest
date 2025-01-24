@@ -1,3 +1,4 @@
+from django.contrib.auth.models import Group
 from django import forms
 from django.core import validators
 from .models import Product , Order
@@ -20,3 +21,9 @@ class OrderForm(forms.ModelForm):
         model = Order
         fields = "user", "adress", "products", 'promo'
         widgets = { "products": forms.CheckboxSelectMultiple()}
+
+
+class GroupForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ['name']
