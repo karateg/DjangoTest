@@ -11,11 +11,21 @@
 <body>
     {% block body  %} 
         Base body
+        
     {% endblock %}
-<text> Hello word! </text>
+    <nav>
+        <div>
+            {% if user.is_authenticated %}
+            <a href="{% url "test_auth:logout" %}"> Выйти из системы </a>
+            {% else %}
+            <a href="{% url "test_auth:login" %}"> Войти в системы </a>
+            {% endif %}
+        </div>
+    </nav>
+    <text> Hello word! </text>
     <div>
         Time runing: {{ time_runing }} 
-    
     </div>
+    
 </body>
 </html>
