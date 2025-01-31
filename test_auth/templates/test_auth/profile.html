@@ -1,0 +1,19 @@
+{% extends "test_auth/base.html" %}
+
+{% block title %}
+    Profile
+{% endblock title %}
+
+{% block body %}
+    <h1>User profile</h1>
+    {% if user.is_authenticated %}
+        <h2>Детали:</h2>
+        <p>Ник: {{user.username}}</p>
+        <p>Имя: {{user.firs_name}}</p>
+        <p>Фамилия: {{user.second_name}}</p>
+        <p>Почта: {{user.email}}</p>
+        <p>Биография: {{user.profile.bio}}</p>
+    {% else %}
+        <h2> User is unknown</h2>
+    {% endif %}
+{% endblock body %}

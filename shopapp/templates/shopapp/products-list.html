@@ -17,8 +17,10 @@
             {% endfor %}
         </ul>
     </div>
-    <div>
-        <a href="{% url "shopapp:products_create" %}"> Создать товар</a>
-    </div>
+    {% if perms.shopapp.add_product %}
+        <div>
+            <a href="{% url "shopapp:products_create" %}"> Создать товар</a>
+        </div>
+    {% endif %}
 {% endblock body %}
 

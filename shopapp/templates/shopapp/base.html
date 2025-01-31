@@ -7,21 +7,22 @@
         Base title
     {% endblock %}
  </title>
+ <nav>
+    <div>
+        {% if user.is_authenticated %}
+        <a href="{% url "test_auth:logout" %}"> Выйти из системы </a>
+        {% else %}
+        <a href="{% url "test_auth:login" %}"> Войти в системы </a>
+        {% endif %}
+    </div>
+</nav>
 </head>
 <body>
     {% block body  %} 
         Base body
         
     {% endblock %}
-    <nav>
-        <div>
-            {% if user.is_authenticated %}
-            <a href="{% url "test_auth:logout" %}"> Выйти из системы </a>
-            {% else %}
-            <a href="{% url "test_auth:login" %}"> Войти в системы </a>
-            {% endif %}
-        </div>
-    </nav>
+   
     <text> Hello word! </text>
     <div>
         Time runing: {{ time_runing }} 

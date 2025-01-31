@@ -12,17 +12,19 @@
         <div>Скидка: {{ product.discount}}</div>
         <div>Архивированно: {{ product.archived}}</div>
     </div>
+    {% if user.is_superuser %}
 
-    <div>
-        <a href="{% url "shopapp:products_list" %}"> Обратно к товарам</a>
-    </div>
+        <div>
+            <a href="{% url "shopapp:products_list" %}"> Обратно к товарам</a>
+        </div>
 
-    <div>
-        <a href="{% url "shopapp:products_update" pk=product.pk %}"> Изменить товар</a>
-    </div>
+        <div>
+            <a href="{% url "shopapp:products_update" pk=product.pk %}"> Изменить товар</a>
+        </div>
 
-    <div>
-        <a href="{% url "shopapp:products_delete" pk=product.pk %}"> Удалить товар</a>
-    </div>
-    
+        <div>
+            <a href="{% url "shopapp:products_delete" pk=product.pk %}"> Удалить товар</a>
+        </div>
+
+    {% endif %}
 {% endblock body %}

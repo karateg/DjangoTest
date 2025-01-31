@@ -6,6 +6,7 @@ from django.views import View
 from django.contrib.auth.models import Group
 from shopapp.forms import GroupForm, OrderForm, ProductForm
 from shopapp.models import Product, Order
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 
 class ShopIndexView(View):
@@ -145,13 +146,14 @@ def orders_list(requst: HttpRequest):
 
 
 class OrderListView(ListView):
-    # model = Order
+    # model = Order 
     queryset = (
         Order.objects.select_related('user').prefetch_related('products')
         )
     
 
-class OrderDetailView(DetailView):
+class OrderDetailView(DetailView, PermissionRequiredMixin):
+    permission_required= 'shopapp.view_order'
     # model = Order
     queryset = (
         Order.objects.select_related('user').prefetch_related('products')
