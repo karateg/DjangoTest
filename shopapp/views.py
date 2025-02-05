@@ -4,10 +4,42 @@ from timeit import default_timer
 from django.urls import reverse_lazy
 from django.views import View
 from django.contrib.auth.models import Group
-from shopapp.forms import GroupForm, OrderForm, ProductForm
-from shopapp.models import Product, Order
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from rest_framework.viewsets import ModelViewSet
+from rest_framework.filters import SearchFilter, OrderingFilter
+from django_filters.rest_framework import DjangoFilterBackend
+
+from shopapp.forms import GroupForm, OrderForm, ProductForm
+from shopapp.models import Product, Order
+from .serializers import ProductSerializer, OrderSerializer
+
+
+class ProductViewSet(ModelViewSet):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+    ordering_fields = ['name', 'discount', 'price']
+    search_fields = ['name', 'discription']
+    filterset_fields = ['name', 'discount', 'discription', 'price', 'created_at', 'archived']
+
+
+class OrderViewSet(ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+    ordering_fields = ['adress', 'user', 'products']
+    search_fields = ['user', 'products']
+    filterset_fields = ['user', 'products', 'promo', 'adress']
+
 
 class ShopIndexView(View):
 
@@ -189,3 +221,6 @@ class OrderUpdateView(UpdateView):
 class OrderDeleteView(DeleteView):
     model = Order
     success_url = reverse_lazy('shopapp:orders_list')
+
+
+

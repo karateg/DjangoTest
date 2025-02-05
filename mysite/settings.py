@@ -41,6 +41,10 @@ INSTALLED_APPS = [
     'shopapp.apps.ShopappConfig',
     'request_app.apps.RequestAppConfig',
     'test_auth.apps.AuthConfig',
+    'test_api.apps.TestApiConfig',
+
+    'rest_framework',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +135,12 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_REDIRECT_URL = reverse_lazy('test_auth:profile')
 LOGIN_URL = reverse_lazy('test_auth:login')
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': [
+        'django_filters.rest_framework.DjangoFilterBackend',
+    ]
+}

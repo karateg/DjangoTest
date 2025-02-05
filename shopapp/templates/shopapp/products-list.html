@@ -12,7 +12,7 @@
                     <p>Название: {{product.name}}</p>
                     <p><a href="{% url 'shopapp:products_ditails' pk=product.pk %}">Название: {{ product.name }}</a> </p>
                     <p>Цена: {{product.price}}</p>
-                    <p>Скидка: {{product.discount}}</p>      
+                    <p>Скидка: {{product.discount}}</p>
                 </li>
             {% endfor %}
         </ul>
