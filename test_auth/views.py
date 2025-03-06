@@ -4,11 +4,38 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpRequest, HttpResponse
 from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy
+from django.views import View
 from django.views.generic import TemplateView, CreateView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.views.decorators.cache import cache_page
+from django.utils.translation import gettext_lazy as _, ngettext
 from .models import Profile
+from random import random
+
+
 # Create your views here.
+
+
+class HelloView(View):
+    message = _('Hello world!')
+    def get(self,request):
+
+        items = request.GET.get('items') or 0
+        items = int(items)
+        products = ngettext(
+            'one product',
+            "{count} products",
+            items
+        )
+
+        products = products.format(count=items)
+
+
+        return HttpResponse(
+            f'<h1> {self.message} </h1>'
+            f'\n<h2> {products} </h2>'
+        )
 
 
 class ProfileView(TemplateView):
@@ -63,10 +90,10 @@ def set_cookie_view(request: HttpRequest) -> HttpResponse:
     responce.set_cookie('new', 'info', max_age=3600)
     return responce
 
-
+@cache_page(30)
 def get_cookie_view(request: HttpRequest) -> HttpResponse:
     value = request.COOKIES.get('new', 'default info')
-    return HttpResponse(f'Cookie value: {value}')
+    return HttpResponse(f'Cookie value: {value} + {random()}')
 
 @permission_required('test_auth.view_profile', raise_exception=True)
 def set_session_view(request: HttpRequest) -> HttpResponse:

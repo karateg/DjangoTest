@@ -10,6 +10,7 @@ from .views import (
     get_session_view,
     ProfileView,
     RegisterView,
+    HelloView,
 )
 
 
@@ -31,4 +32,6 @@ urlpatterns = [
 
     path('profile/', ProfileView.as_view(), name='profile'),
     path('register/', RegisterView.as_view(), name='register'),
+    path('hello/', HelloView.as_view(), name='hello'),
+    
 ]

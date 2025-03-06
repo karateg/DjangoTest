@@ -1,29 +1,31 @@
 {% extends "shopapp/base.html" %}
-
+{% load i18n %}
 {% block title %}
     Товар №{{product.pk}}
 {% endblock title %}
 
 {% block body %}
-    <h1>Товар {{product.name}}</h1>
+{% blocktranslate with discription=product.discription price=product.price name=product.name discount=product.discount archived=product.archived%}
+    <h1> Товар {{name}}</h1>
     <div>
-        <div>Описание: <em> {{product.discription}}</em></div>
-        <div>Цена: {{ product.price}}</div>
-        <div>Скидка: {{ product.discount}}</div>
-        <div>Архивированно: {{ product.archived}}</div>
+        <div> Описание: <em> {{discription}} </em></div>
+        <div> Цена: {{ price}} </div>
+        <div> Скидка: {{discount}} </div>
+        <div> Архивированно: {{ archived }} </div>
     </div>
-    {% if user.is_superuser %}
+{% endblocktranslate %}
+    {% if user.is_superuser or product.author == user %}
 
         <div>
-            <a href="{% url "shopapp:products_list" %}"> Обратно к товарам</a>
+            <a href="{% url "shopapp:products_list" %}"> {% translate "Back to the products" %}</a>
         </div>
 
         <div>
-            <a href="{% url "shopapp:products_update" pk=product.pk %}"> Изменить товар</a>
+            <a href="{% url "shopapp:products_update" pk=product.pk %}"> {% translate "Change product" %}</a>
         </div>
 
         <div>
-            <a href="{% url "shopapp:products_delete" pk=product.pk %}"> Удалить товар</a>
+            <a href="{% url "shopapp:products_delete" pk=product.pk %}"> {% translate "Delete product" %}</a>
         </div>
 
     {% endif %}

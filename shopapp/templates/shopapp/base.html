@@ -1,4 +1,5 @@
 <!doctype html>
+{% load i18n %}
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
@@ -8,13 +9,23 @@
     {% endblock %}
  </title>
  <nav>
-    <div>
-        {% if user.is_authenticated %}
-        <a href="{% url "test_auth:logout" %}"> Выйти из системы </a>
-        {% else %}
-        <a href="{% url "test_auth:login" %}"> Войти в системы </a>
-        {% endif %}
-    </div>
+
+    {% url "test_auth:logout" as test_auth_logout %}
+    {% url "test_auth:login" as test_auth_login%}
+    
+        <div>
+            {% if user.is_authenticated %}
+            {% blocktranslate %}
+            <a href="{{test_auth_logout}}"> Logout </a>
+            {% endblocktranslate %}
+            {% else %}
+            {% blocktranslate %}
+            <a href="{{test_auth_login}}"> Login </a>
+            {% endblocktranslate %}
+            {% endif %}
+        </div>
+    
+    
 </nav>
 </head>
 <body>

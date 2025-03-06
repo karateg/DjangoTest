@@ -1,5 +1,10 @@
+"""
+В этом файле представление для интернет магазина.
+товары, заказы.
+"""
+
 from django.shortcuts import get_object_or_404, render,redirect, reverse
-from django.http import HttpResponse, HttpRequest, HttpResponseRedirect
+from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
 from timeit import default_timer
 from django.urls import reverse_lazy
 from django.views import View
@@ -9,13 +14,48 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 from rest_framework.viewsets import ModelViewSet
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from drf_spectacular.utils import extend_schema, OpenApiResponse
+from django.core.cache import cache
 
 from shopapp.forms import GroupForm, OrderForm, ProductForm
 from shopapp.models import Product, Order
 from .serializers import ProductSerializer, OrderSerializer
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
 
 
+
+
+class ProductsExportView(View):
+
+    def get(self, request):
+        products_data = cache.get('products')
+        if products_data is None:
+            products = Product.objects.all()
+            print("обращение в БД")
+            products_data = [
+                {
+                    'pk': product.pk,
+                    'name': product.name,
+                    'price': product.price,
+                }
+                for product in products
+            ]
+            cache.set('products', products_data, 20)
+            
+        return JsonResponse({'products': products_data})
+
+
+@extend_schema(
+    description='CRUD представление',
+    tags=['Товары'],
+)
 class ProductViewSet(ModelViewSet):
+    """
+    Набор представлений для модели продукт
+    Полный CRUD для сущности товара
+    """
+
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
     filter_backends = [
@@ -28,6 +68,25 @@ class ProductViewSet(ModelViewSet):
     filterset_fields = ['name', 'discount', 'discription', 'price', 'created_at', 'archived']
 
 
+    @extend_schema(
+    summary='Получение продукта по id',
+    description='12343',
+    responses={
+        200: ProductSerializer(),
+        404: OpenApiResponse(description='Товар не найден'),
+    }
+)
+    def retrieve(self,*args, **kwargs):
+        return super().retrieve(*args, **kwargs)
+    @method_decorator(cache_page(10))
+    def list(self,*args, **kwargs):
+        print('hello')
+        return super().retrieve(*args, **kwargs)
+
+@extend_schema(
+    description='CRUD представление',
+    tags=['Заказы'],
+)
 class OrderViewSet(ModelViewSet):
     queryset = Order.objects.all()
     serializer_class = OrderSerializer
@@ -49,7 +108,9 @@ class ShopIndexView(View):
         dict1 = {
             'time_runing': default_timer(),
             'products': products,
+            'items': 1,
         }
+        print('shop index', dict1)
         return render(request, 'shopapp/index.html', context = dict1)
 
 

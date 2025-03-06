@@ -1,0 +1,30 @@
+{% extends "market/base.html" %}
+
+{% block title %}
+    Товар №{{product.pk}}
+{% endblock title %}
+
+{% block body %}
+    <h1>Товар {{product.product}}</h1>
+    <div>
+        <div>Описание: <em> {{product.product.discription}}</em></div>
+        <div>Цена: {{ product.price}}</div>
+        <div>Скидка: {{ product.product.discount}}</div>
+        <div>Архивированно: {{ product.product.archived}}</div>
+        <div>Магазин: {{ product.shop}}</div>
+        <div>Остаток: {{ product.quantity}}</div>
+        {% if product.quantity > 0 %}
+            <form action="{% url "cart:cart_add" pk=product.pk %}" method="post">
+                {% csrf_token %}
+                {{form}}
+                <input type="submit" value="Добавить в корзину">
+            </form>
+        {% endif %}
+    </div>
+    {% if user.is_superuser or product.author == user %}
+
+        <div>
+            <a href="{% url "market:products" %}"> Обратно к продуктам</a>
+        </div>
+    {% endif %}
+{% endblock body %}

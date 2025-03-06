@@ -1,0 +1,17 @@
+{% extends "market/base.html" %}
+{% block title %}
+    Update Client
+{% endblock title %}
+{% block body %}
+    <h1>Изменение информации клиента</h1>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{form.as_p}}
+            <button type='submit'> Изменить </button>
+        </form>
+    </div>
+    <div>
+        <a href="{% url "market:client_info" pk==user.client.pk %}"> Обратно к профилю </a>
+    </div>
+{% endblock body %}

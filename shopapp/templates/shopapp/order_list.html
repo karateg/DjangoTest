@@ -1,21 +1,24 @@
 {% extends "shopapp/base.html"%}
+{% load i18n %}
 {% block title %}
 Заказы:
 {% endblock title %}
 
 {% block body %}
-<h1> Заказы:</h1>
-{% for order in object_list %}
-    <p> <a href="{% url "shopapp:orders_ditails" pk=order.pk %}"> Заказ: {{order.id}} </a></p>
-    <p>Адрес:  {{order.adress}}</p>
-    <p>Промокод:  {{order.promo}}</p>
-    <p>user:  {{order.user}}</p>
-    Продукты:
+
+    <h1> {% translate "Orders" %}:</h1>
+    {% for order in object_list %}
+        <p> <a href="{% url 'shopapp:orders_ditails' pk=order.pk %}"> {% translate "Order" %}: {{order.id}} </a></p>
+
+            <p>{% translate "Adres" %}:  {{order.adress}}</p>
+            <p>{% translate "Promocode" %}:  {{order.promo}}</p>
+            <p>{% translate "User" %}:  {{order.user}}</p>
+            {% translate "Products" %}:
     {% for product in order.products.all %}
         <ul> {{product.name}}</ul>
     {% endfor %}
 {% endfor %}
 <div>
-    <a href="{% url "shopapp:orders_create" %}"> Ссылка на создание заказов</a>
+    <a href="{% url "shopapp:orders_create" %}"> {% translate "Link to create orders" %}</a>
 </div>
 {% endblock body %}

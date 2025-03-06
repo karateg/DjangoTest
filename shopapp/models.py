@@ -4,6 +4,10 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Product(models.Model):
+    """
+    Модель для представления товара
+    Заказы: :model:`shopapp.Order` 
+    """
     class Meta:
         ordering = ['name', 'price']
         verbose_name = 'Продукт'
@@ -15,7 +19,7 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     changed_at = models.DateTimeField(auto_now=True)
     archived = models.BooleanField(default=False)
-    # author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='related_posts_author', default=1)
+    author = models.ForeignKey(User, on_delete=models.CASCADE, null=True, related_name='products', default=1)
     def __str__(self) -> str:
        return f'Товар {self.name}, pk={self.pk}'
     

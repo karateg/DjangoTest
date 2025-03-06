@@ -1,4 +1,6 @@
 {% extends 'shopapp/base.html' %}
+{% load cache %}
+
 {% block title %}
     Index
 {% endblock %}
@@ -13,4 +15,22 @@
         {% endif %}
         {% endfor %}
     </ul>
+
+    <div>
+        <ul>
+           <li> I have {{ items }} item{{ items | pluralize  }} </li>
+            <li> I have {{ items }} class{{ items | pluralize:"es"  }} </li>
+            {% comment %} <li> I have {{ items }} cherr{{ items | pluralize:"y","ies"  }} </li> {% endcomment %}
+        </ul>
+    </div>
+
+    <div>
+    {{ time_runing }}
+    </div>
+
+    {% comment %} {% cache 30 time_runing %} {% endcomment %}
+        <div>
+            {{ time_runing }}
+            </div>
+    {% comment %} {% endcache %} {% endcomment %}
 {% endblock %}

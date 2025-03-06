@@ -1,25 +1,36 @@
 {% extends 'shopapp/base.html' %}
+{% load i18n %}
+
 {% block title %}
- Товары
+ {% translate "Products list" %}
 {% endblock title %}
 
 {% block body %}
-<h1> Товары:</h1>
+<h1> {% translate "Products:" %}</h1>
     <div>
         <ul>
             {% for product in products %}
+                {% blocktranslate count product_count=10 %}
+                There is only one product
+                {% plural %}
+                There are {{product_count}} products
+                {% endblocktranslate %}
                 <li>
-                    <p>Название: {{product.name}}</p>
-                    <p><a href="{% url 'shopapp:products_ditails' pk=product.pk %}">Название: {{ product.name }}</a> </p>
-                    <p>Цена: {{product.price}}</p>
-                    <p>Скидка: {{product.discount}}</p>
+                    <p>{% translate "Naming" %}: {{product.name}}</p>
+                    <p><a href="{% url 'shopapp:products_ditails' pk=product.pk %}">
+                        {% translate "Name" context 'product name' %}: {{ product.name }}</a> </p>
+                    <p>{% translate "Price" %}: {{product.price}}</p>
+
+                    {% translate "no discount" as no_discount %}
+
+                    <p>{% translate "Discount" %}: {% firstof product.discount no_discount %} </p>
                 </li>
             {% endfor %}
         </ul>
     </div>
     {% if perms.shopapp.add_product %}
         <div>
-            <a href="{% url "shopapp:products_create" %}"> Создать товар</a>
+            <a href="{% url "shopapp:products_create" %}"> {% translate "Создать товар" %}</a>
         </div>
     {% endif %}
 {% endblock body %}
