@@ -1,0 +1,100 @@
+[
+    {
+        "model": "shopapp.product",
+        "pk": 1,
+        "fields": {
+            "name": "Apple",
+            "discription": "Красный",
+            "price": "1000.00",
+            "discount": 10,
+            "created_at": "2024-12-27T11:56:00.729Z",
+            "changed_at": "2025-02-05T17:46:42.640Z",
+            "archived": false,
+            "author": 1
+        }
+    },
+    {
+        "model": "shopapp.product",
+        "pk": 2,
+        "fields": {
+            "name": "Orange",
+            "discription": "фрукт",
+            "price": "5000.00",
+            "discount": 10,
+            "created_at": "2024-12-27T11:56:00.737Z",
+            "changed_at": "2025-02-05T17:46:49.839Z",
+            "archived": false,
+            "author": 1
+        }
+    },
+    {
+        "model": "shopapp.product",
+        "pk": 3,
+        "fields": {
+            "name": "juce",
+            "discription": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+            "price": "3000.00",
+            "discount": 5,
+            "created_at": "2024-12-27T11:56:00.744Z",
+            "changed_at": "2025-03-06T14:37:53.345Z",
+            "archived": false,
+            "author": 1
+        }
+    },
+    {
+        "model": "shopapp.product",
+        "pk": 4,
+        "fields": {
+            "name": "TV",
+            "discription": "",
+            "price": "9000.00",
+            "discount": 0,
+            "created_at": "2025-01-17T17:41:49.920Z",
+            "changed_at": "2025-01-17T17:41:49.920Z",
+            "archived": false,
+            "author": 1
+        }
+    },
+    {
+        "model": "shopapp.product",
+        "pk": 6,
+        "fields": {
+            "name": "watermelon",
+            "discription": "крутой",
+            "price": "1200.00",
+            "discount": 10,
+            "created_at": "2025-01-17T18:29:59.162Z",
+            "changed_at": "2025-01-17T18:29:59.162Z",
+            "archived": false,
+            "author": 1
+        }
+    },
+    {
+        "model": "shopapp.product",
+        "pk": 7,
+        "fields": {
+            "name": "Melon",
+            "discription": "торпеда",
+            "price": "1300.00",
+            "discount": 5,
+            "created_at": "2025-01-17T18:31:22.196Z",
+            "changed_at": "2025-01-17T18:31:22.196Z",
+            "archived": false,
+            "author": 1
+        }
+    },
+    {
+        "model": "shopapp.product",
+        "pk": 8,
+        "fields": {
+            "name": "Tost",
+            "discription": "2323",
+            "price": "1234.00",
+            "discount": 15,
+            "created_at": "2025-01-20T18:30:33.045Z",
+            "changed_at": "2025-01-20T18:30:39.751Z",
+            "archived": true,
+            "author": 1
+        }
+    }
+]

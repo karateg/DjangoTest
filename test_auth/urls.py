@@ -11,6 +11,7 @@ from .views import (
     ProfileView,
     RegisterView,
     HelloView,
+    FooBarWiew,
 )
 
 
@@ -33,5 +34,6 @@ urlpatterns = [
     path('profile/', ProfileView.as_view(), name='profile'),
     path('register/', RegisterView.as_view(), name='register'),
     path('hello/', HelloView.as_view(), name='hello'),
+    path('foo/', FooBarWiew.as_view(), name="foo-bar"),
     
 ]

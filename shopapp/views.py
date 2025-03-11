@@ -238,7 +238,7 @@ def orders_list(requst: HttpRequest):
     return render(requst,'shopapp/orders-list.html', context= context)
 
 
-class OrderListView(ListView):
+class OrderListView(LoginRequiredMixin,ListView):
     # model = Order 
     queryset = (
         Order.objects.select_related('user').prefetch_related('products')

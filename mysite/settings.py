@@ -65,7 +65,7 @@ MIDDLEWARE = [
     # 'django.middleware.cache.FetchFromCacheMiddleware',
     'django.middleware.locale.LocaleMiddleware',
 
-    'request_app.middlewares.set_useragent_middleware',
+    # 'request_app.middlewares.set_useragent_middleware',
     'request_app.middlewares.CountRequestsMiddleware',
 ]
 

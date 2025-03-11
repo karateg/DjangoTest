@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, reverse
 from django.contrib.auth.decorators import login_required, permission_required
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpRequest, HttpResponse
+from django.http import HttpRequest, HttpResponse , JsonResponse
 from django.contrib.auth.views import LogoutView
 from django.urls import reverse_lazy
 from django.views import View
@@ -90,7 +90,7 @@ def set_cookie_view(request: HttpRequest) -> HttpResponse:
     responce.set_cookie('new', 'info', max_age=3600)
     return responce
 
-@cache_page(30)
+# @cache_page(30)
 def get_cookie_view(request: HttpRequest) -> HttpResponse:
     value = request.COOKIES.get('new', 'default info')
     return HttpResponse(f'Cookie value: {value} + {random()}')
@@ -104,3 +104,8 @@ def set_session_view(request: HttpRequest) -> HttpResponse:
 def get_session_view(request: HttpRequest) -> HttpResponse:
     value = request.session.get('new', 'default info')
     return HttpResponse(f'Session value: {value}')
+
+class FooBarWiew(View):
+    def get(self, request: HttpRequest) -> JsonResponse:
+        return JsonResponse({'foo': "bar", 'number': "123"})
+    
