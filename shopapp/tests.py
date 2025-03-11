@@ -2,7 +2,7 @@ from django.test import TestCase
 from django.urls import reverse
 
 from mysite import settings
-from shopapp.models import Product
+from shopapp.models import Product, Order
 from .utils import add_two_numbers
 from django.contrib.auth.models import User
 from string import ascii_letters
@@ -39,6 +39,61 @@ class ProductCreateViewTestCase(TestCase):
         self.assertRedirects(responce, reverse('shopapp:products_list'))
 
         self.assertTrue(Product.objects.filter(name=self.product_name).exists())
+
+
+class OrderCreateViewTestCase(TestCase):
+
+    def setUp(self):
+        self.user = User.objects.create(username='Anton')
+
+    def tearDown(self):
+        self.user.delete()
+
+    def test_create_order(self):
+        responce = self.client.post(
+             reverse('shopapp:orders_create'),
+             {
+                 "user": "user", 
+                 "adress": 'Minina 5', 
+                 "products": ["apple","orange"], 
+                 'promo': 'sale',
+             }
+        )
+
+        self.assertRedirects(responce, reverse('shopapp:orders_list'))
+        # self.assertEqual(responce.status_code, 200)
+
+
+class OrderDeleteViewTestCase(TestCase):
+
+    def setUp(self):
+        
+        self.user = User.objects.create(username='User')
+        self.order = Order.objects.create(
+            user=self.user,
+            adress='Antonovka',
+            promo='Promo'
+        )
+        
+
+    def tearDown(self):
+        Order.objects.filter(user=self.user).delete()
+        self.user.delete()
+        self.order.delete()
+
+
+    def test_order_delete(self):
+        self.assertTrue(Order.objects.filter(pk=self.order.pk).exists())
+
+        response = self.client.post(
+            reverse('shopapp:orders_delete', kwargs={'pk': self.order.pk})
+        )
+
+        self.assertEqual(response.status_code, 302)
+
+        self.assertIn(str(reverse('shopapp:orders_list')), response.url)
+
+        self.assertFalse(Order.objects.filter(pk=self.order.pk).exists())
 
 
 class ProductDetailViewTestCase(TestCase):
