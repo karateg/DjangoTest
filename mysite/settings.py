@@ -26,8 +26,16 @@ SECRET_KEY = 'django-insecure-8dd5b1js@dfmmrl@r#eb6cbj$1w^%t8onzq-e#h089het3$12-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "0.0.0.0",
+    "127.0.0.1",
+]
 
+
+
+INTERNAL_IPS = [
+    '127.0.0.1'
+]
 
 # Application definition
 
@@ -47,6 +55,7 @@ INSTALLED_APPS = [
     'market.apps.MarketConfig',
     'cart.apps.CartConfig',
 
+    'debug_toolbar',
     'rest_framework',
     'django_filters',
     'drf_spectacular'
@@ -63,7 +72,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.contrib.admindocs.middleware.XViewMiddleware',
     # 'django.middleware.cache.FetchFromCacheMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    
 
     # 'request_app.middlewares.set_useragent_middleware',
     'request_app.middlewares.CountRequestsMiddleware',
@@ -104,8 +115,8 @@ DATABASES = {
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.filebased.FileBasedCache',
-        # 'LOCATION': 'var/temp/django_cash',
-        'LOCATION': 'F:/django_text',
+        'LOCATION': BASE_DIR / 'var/temp/django_cash',
+        # 'LOCATION': 'F:/django_text',
     }
 }
 
@@ -184,3 +195,38 @@ SPECTACLAR_SETTINGS = {
 }
 
 CART_SESSION_ID = 'cart'
+
+LOGFILE_NAME = BASE_DIR / 'log.txt'
+LOGFILE_SIZE = 400
+# LOGFILE_SIZE = 1024 * 1024 * 5
+LOGFILE_COUNT = 3
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'verbose': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'verbose',
+        },
+        'logfile': {
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': LOGFILE_NAME,
+            'maxBytes': LOGFILE_SIZE,
+            'backupCount': LOGFILE_COUNT,
+            'formatter': 'verbose',
+        },
+    },
+    'root': {
+        'handlers': [
+            'console',
+            'logfile',
+            ],
+        'level': 'DEBUG',
+    },
+}

@@ -2,6 +2,7 @@
 В этом файле представление для интернет магазина.
 товары, заказы.
 """
+import logging
 
 from django.shortcuts import get_object_or_404, render,redirect, reverse
 from django.http import HttpResponse, HttpRequest, HttpResponseRedirect, JsonResponse
@@ -23,7 +24,7 @@ from .serializers import ProductSerializer, OrderSerializer
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page
 
-
+log = logging.getLogger(__name__)
 
 
 class ProductsExportView(View):
@@ -110,7 +111,11 @@ class ShopIndexView(View):
             'products': products,
             'items': 1,
         }
-        print('shop index', dict1)
+        # print('shop index', dict1)
+
+        log.debug('Products for shop: %s', products)
+        log.info('Rendering shop index view')
+
         return render(request, 'shopapp/index.html', context = dict1)
 
 

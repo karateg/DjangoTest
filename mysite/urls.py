@@ -19,6 +19,8 @@ from django.urls import path , include
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView, SpectacularRedocView
 from django.conf.urls.i18n import i18n_patterns
 
+from mysite import settings
+
 
 urlpatterns = [
     path('admin/docs/', include('django.contrib.admindocs.urls')),
@@ -36,3 +38,9 @@ urlpatterns += i18n_patterns(
     path('auth/', include('test_auth.urls')),
     path('shop/', include('shopapp.urls')),
 )
+
+if settings.DEBUG:
+
+    urlpatterns.append(
+        path('__debug__/', include('debug_toolbar.urls')),
+    )

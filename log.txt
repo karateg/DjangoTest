@@ -1,0 +1,4 @@
+2025-03-12 19:56:20,133 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-03-12 19:56:25,170 [DEBUG] shopapp.views: Products for shop: [('apple', '1000'), ('orange', '500'), ('juice', '500')]
+2025-03-12 19:56:25,171 [INFO] shopapp.views: Rendering shop index view
+2025-03-12 19:56:27,875 [INFO] shopapp.views: Rendering shop index view
