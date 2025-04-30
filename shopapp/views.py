@@ -162,6 +162,9 @@ def products_list(requst: HttpRequest):
 
 
 class ProductListView(ListView):
+    def get(self, request: HttpRequest, *args: reverse_lazy, **kwargs: reverse_lazy) -> HttpResponse:
+        1/ 0
+        return super().get(request, *args, **kwargs)
     template_name = 'shopapp/products-list.html'
     # model = Product
     queryset = Product.objects.filter(archived=False)
@@ -170,7 +173,6 @@ class ProductListView(ListView):
     #     context = super().get_context_data(**kwargs)
     #     context['products'] = Product.objects.all()
     #     return context
-
 
 # class ProductDetailView(View):
 
