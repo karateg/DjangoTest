@@ -148,6 +148,9 @@ class GroupsListView(View):
     
     def post(self, request: HttpRequest) -> HttpResponse:
         form = GroupForm(request.POST)
+
+
+        
         if form.is_valid():
             form.save()
         return redirect(request.path)
