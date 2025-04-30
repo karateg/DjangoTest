@@ -12,10 +12,10 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 from django.urls import reverse_lazy
 from pathlib import Path
 from django.utils.translation import gettext_lazy as _
+import os 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
@@ -196,37 +196,59 @@ SPECTACLAR_SETTINGS = {
 
 CART_SESSION_ID = 'cart'
 
-LOGFILE_NAME = BASE_DIR / 'log.txt'
-LOGFILE_SIZE = 400
-# LOGFILE_SIZE = 1024 * 1024 * 5
-LOGFILE_COUNT = 3
+# LOG_LEVEL = os.environ.get('LOG_LEVEL')
+LOG_LEVEL = 'WARNING'
+
+LOG_FILE_NAME = BASE_DIR / 'logging' / 'logs.log'
+LOG_FILE_NAME.parent.mkdir(exist_ok=True)
+LOG_FILE_SIZE = 1024 * 1024 * 3
+LOG_FILE_COUNT = 30
+
+SYSTEM = os.name
+FILE_HANDLER = 'file_loging_windows' if SYSTEM == 'nt' else 'file_loging_not_windows'
 
 LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'verbose': {
-            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s',
+        'main_format': {
+            'format': '%(asctime)s: [%(levelname)s] {%(name)s}: %(message)s',
         },
+        'simple_format':{
+            'format': '[%(levelname)s]: %(message)s'
+        }
     },
     'handlers': {
         'console': {
+            'level': LOG_LEVEL,
             'class': 'logging.StreamHandler',
-            'formatter': 'verbose',
+            'formatter': 'simple_format',
         },
-        'logfile': {
-            'class': 'logging.handlers.RotatingFileHandler',
-            'filename': LOGFILE_NAME,
-            'maxBytes': LOGFILE_SIZE,
-            'backupCount': LOGFILE_COUNT,
-            'formatter': 'verbose',
+        # NotWindows
+        'file_loging_not_windows':{
+            'level': LOG_LEVEL,
+            'class': 'logging.handlers.TimedRotatingFileHandler', 
+            'formatter': 'main_format',
+            'filename': LOG_FILE_NAME,
+            'when': 'midnight',
+            'interval': 1,
+            'backupCount': LOG_FILE_COUNT,
+        },
+        # Windows
+        'file_loging_windows':{
+            'level': LOG_LEVEL,
+            'class': 'concurrent_log_handler.ConcurrentRotatingFileHandler', 
+            'formatter': 'main_format',
+            'filename': LOG_FILE_NAME,
+            'maxBytes': LOG_FILE_SIZE,
+            'backupCount': LOG_FILE_COUNT,
         },
     },
     'root': {
         'handlers': [
-            'console',
-            'logfile',
-            ],
-        'level': 'DEBUG',
+                'console',
+                FILE_HANDLER,
+           ],
+        'level': LOG_LEVEL,
     },
 }
